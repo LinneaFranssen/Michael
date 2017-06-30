@@ -1,6 +1,6 @@
 //
 // File:   main.cc
-// Author: pieta
+// Author: pieta and mtorpey
 //
 // Created on 28 January 2008, 13:41
 //
