@@ -373,7 +373,7 @@ void wasp::processStep(int n) //going through one timestep
 			double p2 = DTDX*((WDiff/DX) + (Chi/(2) )*kGradEW);
 			double p4 = DTDX*((WDiff/DX) - (Chi/(2) )*kGradNS);;
 			double p3 = DTDX*((WDiff/DX) + (Chi/(2) )*kGradNS);
-            	std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n" << " Chi is " << Chi << "\n" << " WDiff is " << WDiff << "\n" << " p0 is  " << p0 << "\n" << " p1 is " << p1 << "\n" << "p2 is " << p2 << "\n" << " p3 is " << p3 << "\n" << " p4 is " << p4 << "\n";
+            	// std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n" << " Chi is " << Chi << "\n" << " WDiff is " << WDiff << "\n" << " p0 is  " << p0 << "\n" << " p1 is " << p1 << "\n" << "p2 is " << p2 << "\n" << " p3 is " << p3 << "\n" << " p4 is " << p4 << "\n";
             //	if( kGradEW != 0) {std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n";}
             //	if(p0 < 0 || p1 < 0 || p2 < 0 || p3 < 0 )
             if(p0 < -0.01 || p1 < -0.01 || p2 < -0.01 || p3 < -0.01 )
