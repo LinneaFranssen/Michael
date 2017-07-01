@@ -9,11 +9,11 @@
 
 //#include "main.h" //// anything that's not in cell.h etc. needs to go in main
 
-extern const double DT ;
-extern const double DX ;
-extern const double DX2 ; 
-extern const double DTDX ;    
-extern const double IDX2 ;
+extern const double DT;
+extern const double DX;
+extern const double DX2;
+extern const double DTDX;
+extern const double IDX2;
 extern const double DTDX2; //these are done again in main.cpp any we may not need to do them here?
 
 
