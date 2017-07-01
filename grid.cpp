@@ -128,6 +128,8 @@ void grid::writeGrid(int it, int gen, int now)
 	kout.setf(ios::fixed);	
 	*/
 	
+    //1.7.17 I suspect this is where the matrices are filled
+    
 	int ll = 0;
 	for(int ywk=0;ywk<GRIDSIZE;ywk++)
 	{
