@@ -10,8 +10,8 @@
 #include "wasp.h"
 #include "grid.h"
 #include "main.h"
-#include <stdlib.h>
-#include <math.h>
+// #include <stdlib.h>
+// #include <math.h>
 
 //Hope this now works
 
@@ -40,7 +40,7 @@ void wasp::setCell(cell * val) //telling wasp cell to go to 'loc'
     loc = val;
 }
 
-void wasp::processStep(int n) //going through one timestep
+void wasp::processStep(int) //going through one timestep
 {
 //	m_NewGpos = loc->getGpos();
 
@@ -373,7 +373,7 @@ void wasp::processStep(int n) //going through one timestep
             double p2 = DTDX*((WDiff/DX) + (Chi/(2) )*kGradEW);
             double p4 = DTDX*((WDiff/DX) - (Chi/(2) )*kGradNS);;
             double p3 = DTDX*((WDiff/DX) + (Chi/(2) )*kGradNS);
-            std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n" << " Chi is " << Chi << "\n" << " WDiff is " << WDiff << "\n" << " p0 is  " << p0 << "\n" << " p1 is " << p1 << "\n" << "p2 is " << p2 << "\n" << " p3 is " << p3 << "\n" << " p4 is " << p4 << "\n";
+            //  std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n" << " Chi is " << Chi << "\n" << " WDiff is " << WDiff << "\n" << " p0 is  " << p0 << "\n" << " p1 is " << p1 << "\n" << "p2 is " << p2 << "\n" << " p3 is " << p3 << "\n" << " p4 is " << p4 << "\n";
             //	if( kGradEW != 0) {std::cout << " gradients are " << kGradEW << " ' " << kGradNS << "\n";}
             //	if(p0 < 0 || p1 < 0 || p2 < 0 || p3 < 0 )
             if(p0 < -0.01 || p1 < -0.01 || p2 < -0.01 || p3 < -0.01 )
@@ -385,7 +385,8 @@ void wasp::processStep(int n) //going through one timestep
 ///////////////////////////////////////////////////////////////////////
 //// find where the wasp is in the grid and then apply the corresponding probability of applying the movement rule..
 
-            int Halfgrid = int (GRIDSIZE/2);
+            int Halfgrid;
+            Halfgrid = GRIDSIZE / 2;
             double RAND22 = (float)rand()/((float)RAND_MAX);
 
             if(getX()>= 0 && getX()< Halfgrid && getY() >=0 && getY()< Halfgrid) //bottom left of grid
