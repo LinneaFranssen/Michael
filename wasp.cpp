@@ -13,7 +13,7 @@
 // #include <stdlib.h>
 // #include <math.h>
 
-//Hope this now works
+
 
 
 wasp::wasp() ///variables that say the same could have gone in constructor but those that mutate cannot //THIS CALLS 'WASP' ; it is for a default wasp; to make wasp offspring, we'd need to put x,y coordinates and then tell cell to make wasp //this is making the wasp in main cpp
