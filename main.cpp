@@ -54,7 +54,7 @@ int main()
     int maxGrids = 1;       // number of grids
     int timeSteps= 5000000; //5000000;        // total number of iterations
     int initWasps = 1000;   //1000   // initial wasp population
-    int MaxWasps = 4; //4 // maximum no of wasps interactions per timestep. 05/07/17: NOTE THAT THIS VARIABLE IS MISLEADING: if you run it with 1, some individua interact twice when setting time step to 1
+    int MaxWasps = 1; //4 // maximum no of wasps interactions per timestep. 05/07/17: NOTE THAT THIS VARIABLE IS MISLEADING: if you run it with 1, some individua interact twice when setting time step to 1
     int WaspLifeSpan = 100; //100 //gregarious lifespan //05/07/17: Why does this run till the end of timesteps (eg 1000) if =100 but not if =200, if all died out?
     double probWaspDeathAferLifespan = 1;
     double probLarvaDiscovery = 1;  //this could be altered to incl. P(do not interact despite in same position)
@@ -200,7 +200,7 @@ int main()
 
         int TotalD = 0; //this and below are the same (?)
         int TotalH = 0;
-        if(twk % 10 == 0) //% means modulo // produce every 100 time steps on screen
+        if(twk % 1 == 0) //% means modulo // produce every 100 time steps on screen
         {
             std::cout << "time  " << twk << "   Number "  << Wasps[now].size() << "\n";
         }
@@ -894,7 +894,7 @@ int main()
         {
             Grids[gwk]->clearPops(now); ///clear grid pop //if grid.cpp -> in cell.cpp:"clear all elements in wasp vector ON THE CELL"
             //Instate if want to print out grida.
-            if(twk%(100)==0)  //if(twk%(timeSteps/10)==0)
+            if(twk%(1)==0)  //if(twk%(timeSteps/10)==0) //changes interval of output files
             {
                 //cout << twk/10 << endl;
                 Grids[gwk]->writeGrid(twk, gwk, 1- now);// output wasp location //////////////////////// "writeGrid(twk, gwk, 1- now)" is a command in grid.cpp that writes all the output files [e.g. H, D, Kai] // "Grids[gwk]->writeGrid" writes next grid => can see that in paper (pics)

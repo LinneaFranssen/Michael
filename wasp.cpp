@@ -53,7 +53,7 @@ void wasp::processStep(int) //going through one timestep
         }
         else
         {
-            m_clock = 1; //
+            KillWasp(); // m_clock = 1; //
         }
 
         m_newX = loc->getX(); //wasp's new X is asking its own cell "what is my X?" and is returning it.
