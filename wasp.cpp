@@ -46,18 +46,18 @@ void wasp::processStep(int) //going through one timestep
 
     if(m_clock == 0 ) //wasp is alive but will be killed...
     {
-        double RAND = (float)rand()/(float)RAND_MAX;
-        if(RAND <= m_probWaspDeathAferLifespan) //this means death will not necessarily happen after 100 timesteps but could be at 101 etc. as there is a P of m_probWaspDeathAferLifespan that a wasp will survive after 100 timesteps
-        {
+       // double RAND = (float)rand()/(float)RAND_MAX;
+        //if(RAND <= m_probWaspDeathAferLifespan) //this means death will not necessarily happen after 100 timesteps but could be at 101 etc. as there is a P of m_probWaspDeathAferLifespan that a wasp will survive after 100 timesteps
+        //{
             KillWasp(); //...here!
-        }
-        else
-        {
-            KillWasp(); // m_clock = 1; //
-        }
+       // }
+       // else
+       // {
+       //   m_clock = 1; //
+       // }
 
-        m_newX = loc->getX(); //wasp's new X is asking its own cell "what is my X?" and is returning it.
-        m_newY = loc->getY();
+       // m_newX = loc->getX(); //wasp's new X is asking its own cell "what is my X?" and is returning it.
+       // m_newY = loc->getY();
     }
     if(m_clock > 0)
     {
