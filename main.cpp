@@ -52,10 +52,10 @@ int main()
 ////// HOUSEKEEPING CREATE VARIABLES AND RANDOM NUMBER AND GET ARGUMENTS
     ///MODEL PARAMETERS///
     int maxGrids = 1;       // number of grids
-    int timeSteps= 1000; //5000000;        // total number of iterations
-    int initWasps = 50;   //1000   // initial wasp population
-    int MaxWasps = 0; //4 // maximum no of wasps interactions per timestep. 05/07/17: NOTE THAT THIS VARIABLE IS MISLEADING: if you run it with 1, some individua interact twice when setting time step to 1
-    int WaspLifeSpan = 200; //100 //gregarious lifespan //05/07/17: Why does this run till the end of timesteps (eg 1000) if =100 but not if =200, if all died out?
+    int timeSteps= 5000000; //5000000;        // total number of iterations
+    int initWasps = 1000;   //1000   // initial wasp population
+    int MaxWasps = 4; //4 // maximum no of wasps interactions per timestep. 05/07/17: NOTE THAT THIS VARIABLE IS MISLEADING: if you run it with 1, some individua interact twice when setting time step to 1
+    int WaspLifeSpan = 100; //100 //gregarious lifespan //05/07/17: Why does this run till the end of timesteps (eg 1000) if =100 but not if =200, if all died out?
     double probWaspDeathAferLifespan = 1;
     double probLarvaDiscovery = 1;  //this could be altered to incl. P(do not interact despite in same position)
     vector <grid*> Grids;               // vector of pointers (addresses) of grids ///this is for multi-grids; vector of pointers to grids
@@ -200,7 +200,7 @@ int main()
 
         int TotalD = 0; //this and below are the same (?)
         int TotalH = 0;
-        if(twk % 100 == 0) //% means modulo // produce every 100 time steps on screen
+        if(twk % 10 == 0) //% means modulo // produce every 100 time steps on screen
         {
             std::cout << "time  " << twk << "   Number "  << Wasps[now].size() << "\n";
         }
@@ -454,8 +454,217 @@ int main()
 ///////////////////////////////////////////////////////////////////////////
 
                 if( Wasps[now][wwk]->getFitness() > 0 )                           //Fitness of wasp is only shown if it is larger than 0 but if you check, all have a fitness
-                 std::cout << "Fitness is " << Wasps[now][wwk]->getFitness() << "\n";
+             //    std::cout << "Fitness is " << Wasps[now][wwk]->getFitness() << "\n";
 
+                {
+                    int fitness = int(Wasps[now][wwk]->getFitness()); ///take int part of fitness
+                    if(Wasps[now][wwk]->getClock() == 40) // for(int rpd = 0; rpd < fitness; rpd++ ) // reproduce and loop through reproduction times
+                    {
+                        wasp* l = new wasp(); //new wasp called "l" // could have what follows in the constructor
+                        l->setLifeSpan(WaspLifeSpan);
+                        l->setClock(WaspLifeSpan);
+                        l->setprobWaspDeathAferLifespan(probWaspDeathAferLifespan);
+                        l->setprobLDiscover(probLarvaDiscovery);
+                        l->setprobWaspDeathAferLifespan(probWaspDeathAferLifespan);
+                        l->setProbMutation(probMutation);
+                        l->setMutationAmount(mutationAmount);
+                        l->setName(Wasps[now][wwk]->getName() ); // name set to parent
+                        l->setKairomoneResponse(Wasps[now][wwk]->getKairomoneResponse() );
+                        l->setKProd(Wasps[now][wwk]->getKProd() );
+
+                        /////////////////// Kairomone Code /////////////// the following 3 aren't relevant unless Chi mutates
+                        l->setChiMutation(probChiMutate);
+                        l->setChiIncrement(chi_increment);
+                        l->setChi(Wasps[now][wwk]->getChi());
+
+
+                        //just to check
+
+                        if( Wasps[now][wwk]->getProbDoveGivenDove() > 1  ||  Wasps[now][wwk]->getProbDoveGivenDove() < 0)
+                        {
+                            std::cout << " prob defect given defect out of range  " << Wasps[now][wwk]->getProbDoveGivenDove() << "\n";
+                        }
+
+                        if(Wasps[now][wwk]->getProbDoveGivenHawk() > 1  ||  Wasps[now][wwk]->getProbDoveGivenHawk() < 0)
+                        {
+                            std::cout << " prob defect given defect out of range  " << Wasps[now][wwk]->getProbDoveGivenHawk() << "\n";
+                        }
+
+
+                        //////// MUTATION CODE FOR PROBABILITIES (at reproduction) /////////////////////////////////////////// we are still in the wasp ++ loop
+                        double MUTATION_DISCRIMINANT = (float)rand()/((float)RAND_MAX);  //Mutation of ProbDefectGivenDefect //decides: Mut Y or N?
+                        if(MUTATION_DISCRIMINANT <= probMutation && Wasps[now][wwk]->getName()  <= initWasps)
+                        {
+                            double MUTATION_DIRECTION = (float)rand()/((float)RAND_MAX);
+                            if(MUTATION_DIRECTION < 0.5 )  // mutation decreases prob defect
+                            {
+                                if(Wasps[now][wwk]->getProbDoveGivenDove() >= mutationAmount)
+                                {
+                                    l->setProbDoveGivenDove( Wasps[now][wwk]->getProbDoveGivenDove() - mutationAmount); //apply mutation if non-neg P(Dove)
+                                }
+                                else //else leave
+                                {
+                                    l->setProbDoveGivenDove(Wasps[now][wwk]->getProbDoveGivenDove() );
+                                }
+                            }
+                            else
+                            {
+                                if(Wasps[now][wwk]->getProbDoveGivenDove() <= 1 - mutationAmount) //P(D)>1 vs else
+                                {
+                                    l->setProbDoveGivenDove(Wasps[now][wwk]->getProbDoveGivenDove() + mutationAmount );
+                                }
+                                else
+                                {
+                                    l->setProbDoveGivenDove(Wasps[now][wwk]->getProbDoveGivenDove()  );
+                                }
+                            }
+                        }
+                        else
+                        {
+                            l->setProbDoveGivenDove(Wasps[now][wwk]->getProbDoveGivenDove()  ); //else leave
+                        }
+
+                        ////////////////////////////////////////////////////////////////////////////////////////////what follows is for a memory-one-timestep and hence not currently needed [corresponding output files for when it was needed are called tft for "tit for tat"////////////////////////////////////
+
+                        double MUTATION_DISCRIMINANT2 = (float)rand()/((float)RAND_MAX);   //// Mutation of DefectGivenCooperate
+                        if(MUTATION_DISCRIMINANT2 <= probMutation && Wasps[now][wwk]->getName()  <= initWasps)
+                        {
+                            double MUTATION_DIRECTION2 = (float)rand()/((float)RAND_MAX);
+                            if(MUTATION_DIRECTION2 < 0.5 )  // mutation decreases prob defect
+                            {
+                                if(Wasps[now][wwk]->getProbDoveGivenHawk() >= mutationAmount)
+                                {
+                                    l->setProbDoveGivenHawk( Wasps[now][wwk]->getProbDoveGivenHawk() - mutationAmount);
+                                }
+                                else
+                                {
+                                    l->setProbDoveGivenHawk(Wasps[now][wwk]->getProbDoveGivenHawk()  );
+                                }
+                            }
+                            else
+                            {
+                                if(Wasps[now][wwk]->getProbDoveGivenHawk() <= 1 - mutationAmount)
+                                {
+                                    l->setProbDoveGivenHawk( Wasps[now][wwk]->getProbDoveGivenHawk() + mutationAmount);
+                                }
+                                else
+                                {
+                                    l->setProbDoveGivenHawk(Wasps[now][wwk]->getProbDoveGivenHawk() );
+                                }
+                            }
+                        }
+                        else
+                        {
+                            l->setProbDoveGivenHawk(Wasps[now][wwk]->getProbDoveGivenHawk());
+                        }
+                        ///////// MUTATION OF KPROD ///////////////////////////////// the Chi production coeff could mutate
+                        double MUTATION_DISCRIMINANT3 = (float)rand()/((float)RAND_MAX);   //// Mutation of KPROD
+                        if(MUTATION_DISCRIMINANT3 <= probMutationKProd )// && Wasps[now][wwk]->getName()  <= initWasps) ///this decides WHETHER mutate
+                        {
+                            double MUTATION_DIRECTION3 = (float)rand()/((float)RAND_MAX); ///this is a small frequent mutation
+
+                            double ExtremeMUTATION_DISCRIMINANT = (float)rand()/((float)RAND_MAX);///this is a large infrequent mutation so that about 1/10 of all mutations are these extreme mutations
+
+                            if(MUTATION_DIRECTION3 < 0.5 )  // mutation decreases KPROD
+                            {
+                                if(ExtremeMUTATION_DISCRIMINANT < probExtremeMutation && Wasps[now][wwk]->getKProd() >= extremeMutationKProd)
+                                {
+                                    l->setKProd( Wasps[now][wwk]->getKProd() - extremeMutationKProd);
+                                }
+                                else if(Wasps[now][wwk]->getKProd() >= mutationKProd)
+                                {
+                                    l->setKProd( Wasps[now][wwk]->getKProd() - mutationKProd);
+                                }
+                                else
+                                {
+                                    l->setKProd(Wasps[now][wwk]->getKProd()  );
+                                }
+                            }
+                            else  //mutation increases KPROD.
+                            {
+                                if(ExtremeMUTATION_DISCRIMINANT < probExtremeMutation)
+                                {
+                                    l->setKProd( Wasps[now][wwk]->getKProd() + extremeMutationKProd);
+                                }
+                                else
+                                {
+                                    l->setKProd(Wasps[now][wwk]->getKProd() + mutationKProd );
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            l->setKProd(Wasps[now][wwk]->getKProd());
+                        }
+
+
+                        ///////// MUTATION OF CHI /////////////////////////////////
+                        double MUTATION_DISCRIMINANT4 = (float)rand()/((float)RAND_MAX);   //// Mutation of CHI
+                        if(MUTATION_DISCRIMINANT4 <= probChiMutate) //// MUTATE IN CHI
+                        {
+                            double MUTATION_DIRECTION4 = (float)rand()/((float)RAND_MAX);
+                            double MUTATION_DISCRIMINANT5 =  (float)rand()/((float)RAND_MAX);
+                            if(MUTATION_DIRECTION4 < 0.5 )  // mutation decreases Chi
+                            {
+
+
+                                if(MUTATION_DISCRIMINANT5 < probGrossChiMutate)
+                                {
+                                    if(Wasps[now][wwk]->getChi() >= GrossChi_increment) ///"GrossChi_increment" is extreme mutation
+                                    {
+                                        l->setChi( Wasps[now][wwk]->getChi() - GrossChi_increment);
+                                    }
+                                    else
+                                    {
+                                        l->setChi(Wasps[now][wwk]->getChi()  );
+                                    }
+                                }
+                                else
+                                {
+                                    if(Wasps[now][wwk]->getChi() >= chi_increment)
+                                    {
+                                        l->setChi( Wasps[now][wwk]->getChi() - chi_increment);
+                                    }
+                                    else
+                                    {
+                                        l->setChi(Wasps[now][wwk]->getChi()  );
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                if(MUTATION_DISCRIMINANT5 < probGrossChiMutate)
+                                {
+                                    l->setChi( Wasps[now][wwk]->getChi() + GrossChi_increment);
+                                }
+                                else
+                                {
+                                    l->setChi(Wasps[now][wwk]->getChi() + chi_increment );
+                                }
+
+
+                            }
+                        }
+                        else
+                        {
+                            l->setChi(Wasps[now][wwk]->getChi());
+                        }
+
+
+
+
+
+                        l->setNewX(Wasps[now][wwk]->getX() );  // offspring born at site of parental death.
+                        l->setNewY(Wasps[now][wwk]->getY() );
+
+                        int lgd = Wasps[now][wwk]->getCell()->getGpos(); //offspring on same grid
+                        Grids[lgd]->addWaspXY(l,1-now);  //find out what grid and ask wasp to grid for next
+                        Wasps[1-now].push_back(l);	//add to 'next' wasp vector
+                    }
+                    Wasps[now][wwk]->setFitness(Wasps[now][wwk]->getFitness() - int(Wasps[now][wwk]->getFitness()) );
+                }
 
 
 
