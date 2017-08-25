@@ -1,1 +1,13 @@
 Mathematical modelling of cancer invasion and metastasis
+
+
+IBM SETUP: 
+
+Individua are initially placed randomly on grid, multiple can be in one grid point. They represent cells.
+
+They move according to random diffusion but their movement is biased due to matrix density differences.
+Differences in ECM density occur due to ECM degradation by MDEs secreted by the individual cells (process for latter: see Kairomone method in grid.cpp).
+
+Individua proliferate by mitosis: Double after a certain time. They die after a set life span.
+
+We want to allow for random mutations to occur in the individua w.r.t. constant haptotactic coefficient PHI; DELTA_r, the constant rate of MDEs (m) produced by individua. Thus we want to represent MT1-MMP vs. MMP2: diffusive degradation using Kairomone method, degrade more quickly or secrete MDEs, which are rebound vs. local to individuum, slower degradation
