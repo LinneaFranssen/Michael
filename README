@@ -3,11 +3,21 @@ Mathematical modelling of cancer invasion and metastasis
 
 IBM SETUP: 
 
-Individua are initially placed randomly on grid, multiple can be in one grid point. They represent cells.
+ICs:
+Individua (they represent cancer cells) are initially placed randomly in a centered square on grid, multiple can be in one grid point, grid point can be empty. 
 
-They move according to random diffusion but their movement is biased due to matrix density differences.
-Differences in ECM density occur due to ECM degradation by MDEs secreted by the individual cells (process for latter: see Kairomone method in grid.cpp).
+ECM density may vary but can be taken to be constant initially for now.
 
-Individua proliferate by mitosis: Double after a certain time. They die after a set life span.
+INDIVIDUA MOVEMENT:
+They move according to random diffusion but their movement is biased due to ECM density differences [see schematic overview in notes to see how EXACTLY this works!]. In the current model Individua's movement responds to Kairomone concentration. 
+In our model, however, there is an intermediate step: Individua produce MDEs according to a constant rate (PHI). These can be of two types (one suffices initially): 
+MT1-MMP vs. MMP2: 
+(diffusive ECM degradation using Kairomone method (see grid.cpp), degrade more quickly [or secrete MDEs, which are rebound??]) vs. (degradation local to individuum, slower degradation)
+Differences in ECM density, which in turn influence the movement of the individua, evolve due to ECM degradation by MDEs secreted by the individual cells: Movement probabilities are set using KGradEW/KGradNS (should really be called ECMGradEW/NS) which determine the movement probabilities P_0 to P_4, which affect the movement of the individua.
 
-We want to allow for random mutations to occur in the individua w.r.t. constant haptotactic coefficient PHI; DELTA_r, the constant rate of MDEs (m) produced by individua. Thus we want to represent MT1-MMP vs. MMP2: diffusive degradation using Kairomone method, degrade more quickly or secrete MDEs, which are rebound vs. local to individuum, slower degradation
+PROLIFERATION/DEATH:
+Individua proliferate by mitosis: Double after a certain time, passing on their mutations (unless further mutations occur on top of them) as well as their location. They die after a set life span.
+
+MUTATIONS:
+We want to allow for random mutations to occur in the individua. They occur at offspring's brith only and are passed on to offspring. Mutations e.g. w.r.t. constant haptotactic coefficient PHI (higher PHI is more aggressive due to faster movement); DELTA_r, the constant rate of MDEs (m) produced by individua, or the type of MDE produced (MT1-MMP vs. MMP2); the frequency of mitosis. 
+
