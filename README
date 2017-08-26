@@ -33,3 +33,4 @@ MULTIPLE GRIDS:
 Finally, we'd like to add multiple grids to represent metastasis. For this, certain grid points (representing vessels) in the initial grid would function as sinks where individua vanish. They would then reach certain grid points on another grid with some probability and replicate there. We could also impose some condition regarding the mutations the individua must have acquired in order to have a chance to reach the new grid as it is usually the more aggressive cancer cells that manage to metastasize.
 
 GAME-THEORETIC ASPECT? (Ask Mark if still wanted/needed)
+
