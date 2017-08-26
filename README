@@ -1,1 +1,31 @@
 Mathematical modelling of cancer invasion and metastasis
+
+
+IBM SETUP: 
+
+(entities in the model are individua (they represent cancer cells); ECM (extracellular matrix, influences the individua's movement); MDEs (secreted by individua, degrade ECM)
+
+ICs:
+Individua are initially placed randomly in a centered square on a square grid; multiple individua can be in one grid point; grid points can be unoccupied. 
+
+Initial ECM density may vary but can be taken to be constant across the grid for now.
+
+No MDEs exist initially.
+
+INDIVIDUA'S MOVEMENT:
+They move according to random diffusion but their movement is biased due to ECM density differences [see schematic overview in notes to see how EXACTLY this works!]. In the current model individua's movement responds to Kairomone concentration. 
+In our model, however, there is an intermediate step: Individua produce MDEs according to a constant rate (PHI). These can be of two types (one suffices initially): 
+MT1-MMP (diffusive ECM degradation using Kairomone method (see grid.cpp), degrade more quickly [[[from notes but currently ignoring: "or secrete MDEs, which are rebound"??]]]) vs. MMP2 (degradation local to individuum, slower degradation): 
+
+Differences in ECM density, which in turn influence the movement of the individua, evolve due to ECM degradation by MDEs. MDEs are secreted by the individual cells: Movement probabilities are set using KGradEW/KGradNS (should really be called ECMGradEW/NS) which determine the movement probabilities P_0 to P_4, which affect the movement of the individua.
+
+PROLIFERATION/DEATH:
+Individua proliferate by mitosis: Double after a certain time, passing on their mutations (unless further mutations occur on top of them) as well as their location. They die after a set life span.
+
+MUTATIONS:
+We want to allow for random mutations to occur in the individua. They occur at offspring's brith only and are passed on to offspring. Mutations e.g. w.r.t. constant haptotactic coefficient PHI (higher PHI is more aggressive due to faster movement); DELTA_r, the constant rate of MDEs (m) produced by individua, or the type of MDE produced (MT1-MMP vs. MMP2); the frequency of mitosis. 
+
+MULTIPLE GRIDS:
+Finally, we'd like to add multiple grids to represent metastasis. For this, certain grid points (representing vessels) in the initial grid would function as sinks where individua vanish. They would then reach certain grid points on another grid with some probability and replicate there. We could also impose some condition regarding the mutations the individua must have acquired in order to have a chance to reach the new grid as it is usually the more aggressive cancer cells that manage to metastasize.
+
+GAME-THEORETIC ASPECT? (Ask Mark if still wanted/needed)
