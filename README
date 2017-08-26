@@ -20,7 +20,11 @@ MT1-MMP (diffusive ECM degradation using Kairomone method (see grid.cpp), degrad
 Differences in ECM density, which in turn influence the movement of the individua, evolve due to ECM degradation by MDEs. MDEs are secreted by the individual cells: Movement probabilities are set using KGradEW/KGradNS (should really be called ECMGradEW/NS) which determine the movement probabilities P_0 to P_4, which affect the movement of the individua.
 
 PROLIFERATION/DEATH:
-Individua proliferate by mitosis: Double after a certain time, passing on their mutations (unless further mutations occur on top of them) as well as their location. They die after a set life span.
+Individua proliferate by mitosis: Double after a certain time, passing on their mutations (unless further mutations occur on top of them) as well as their location. 
+CAVEATS (August 2017): 1) I tried changing from payoff-dependent to age-dependent proliferation. This works number-wise as long as we choose M=0 but should in my opinion also work for larger M (M being the maximum number of interactions per time step. Interactions are used to accummulate payoff by playing game-theoretic games with another individuum in the same grid point). This is because payoff should not translate into offspring/offspring generation should be M-independent. If I choose M>0, however, the first generation dies normally, the second generation has 1 individual that stays, the 3rd has 2 survivors in total etc. No idea why! Does not seem to depend on random survival probability as also happens when commented out. 
+2) Further, I have noted that offspring is not generated in the same gridpoint since changing to age-dependant proliferation.
+
+Individua die after a set life span.
 
 MUTATIONS:
 We want to allow for random mutations to occur in the individua. They occur at offspring's brith only and are passed on to offspring. Mutations e.g. w.r.t. constant haptotactic coefficient PHI (higher PHI is more aggressive due to faster movement); DELTA_r, the constant rate of MDEs (m) produced by individua, or the type of MDE produced (MT1-MMP vs. MMP2); the frequency of mitosis. 
