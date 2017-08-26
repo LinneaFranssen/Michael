@@ -52,7 +52,7 @@ int main()
 ////// HOUSEKEEPING CREATE VARIABLES AND RANDOM NUMBER AND GET ARGUMENTS
     ///MODEL PARAMETERS///
     int maxGrids = 1;       // number of grids
-    int timeSteps= 5000000; //5000000;        // total number of iterations
+    int timeSteps= 5; //5000000;        // total number of iterations
     int initWasps = 100;   //1000   // initial wasp population
     int MaxWasps = 0; //4 // maximum no of wasps interactions per timestep. 05/07/17: NOTE THAT THIS VARIABLE IS MISLEADING: if you run it with 1, some individua interact twice when setting time step to 1 //must check that this MaxWasp business does not have a bug!!!
     int WaspLifeSpan = 100; //100 //gregarious lifespan //05/07/17: Why does this run till the end of timesteps (eg 1000) if =100 but not if =200, if all died out?
@@ -191,7 +191,7 @@ int main()
 
     for(int twk = 0; twk < timeSteps; twk++)
     {
-        random_shuffle(Wasps[now].begin(), Wasps[now].end());
+        random_shuffle(Wasps[now].begin(), Wasps[now].end());  //.begin() and .end() means first till last entry of container; but what is this for?
 
         /////////////// OUTPUT CODE ////////////////////////////////////////////////
         int Totaloutemp = 0; //starting like this is good practisee
@@ -200,7 +200,7 @@ int main()
 
         int TotalD = 0; //this and below are the same (?)
         int TotalH = 0;
-        if(twk % 1 == 0) //% means modulo // produce every 100 time steps on screen
+        if(twk % 100 == 0) //% means modulo // produce every 100 time steps on screen
         {
             std::cout << "time  " << twk << "   Number "  << Wasps[now].size() << "\n";
         }
