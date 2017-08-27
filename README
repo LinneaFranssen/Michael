@@ -1,12 +1,12 @@
 Mathematical modelling of cancer invasion and metastasis
 
 
-IBM SETUP: 
+IBM SETUP: (For diagram setup see large pink sheet "(V) Description in Plain English")
 
 (entities in the model are individua (they represent cancer cells); ECM (extracellular matrix, influences the individua's movement); MDEs (secreted by individua, degrade ECM)
 
 ICs:
-Individua are initially placed randomly in a centered square on a square grid; multiple individua can be in one grid point; grid points can be unoccupied. 
+Individua are initially placed randomly in a centered square on a square grid (or single cell in centre); multiple individua can be in one grid point; grid points can be unoccupied. 
 
 Initial ECM density may vary but can be taken to be constant across the grid for now.
 
@@ -30,7 +30,7 @@ MUTATIONS:
 We want to allow for random mutations to occur in the individua. They occur at offspring's brith only and are passed on to offspring. Mutations e.g. w.r.t. constant haptotactic coefficient PHI (higher PHI is more aggressive due to faster movement); DELTA_r, the constant rate of MDEs (m) produced by individua, or the type of MDE produced (MT1-MMP vs. MMP2); the frequency of mitosis. 
 
 MULTIPLE GRIDS:
-Finally, we'd like to add multiple grids to represent metastasis. For this, certain grid points (representing vessels) in the initial grid would function as sinks where individua vanish. They would then reach certain grid points on another grid with some probability and replicate there. We could also impose some condition regarding the mutations the individua must have acquired in order to have a chance to reach the new grid as it is usually the more aggressive cancer cells that manage to metastasize.
+Finally, we'd like to add multiple grids to represent metastasis. For this, certain grid points (representing vessels) in the initial grid would function as sinks where individua vanish. They would then reach certain grid points on another grid with some probability (different for different grips to represent distance/difficulty to reach other sites from primary tumour) and replicate there. We could also impose some condition regarding the mutations the individua must have acquired in order to have a chance to reach the new grid as it is usually the more aggressive cancer cells that manage to metastasize.
 
 GAME-THEORETIC ASPECT? (Ask Mark if still wanted/needed)
 
