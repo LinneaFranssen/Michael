@@ -142,7 +142,7 @@ public: //these are things one can "tell" wasp; here one can decide which things
 
     void KillWasp() { m_status = false; }
 
-    void processStep(int n);
+    void processStep(int n); ///Aug 2017: Ask Andrew: Why can't I see what this fn does when I look for all occurrances in the code?
 
     void setNewX(int val) { m_newX = val; }
 

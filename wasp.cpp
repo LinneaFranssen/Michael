@@ -63,7 +63,7 @@ void wasp::processStep(int) //going through one timestep
     {
 
 
-        double kGradNS=loc->getKgradientNS();
+        double kGradNS=loc->getKgradientNS(); //why exactly do we need to do this?
         double kGradEW=loc->getKgradientEW();
 
         if(m_kairomoneResponse == 3)

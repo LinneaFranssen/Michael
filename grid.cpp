@@ -23,7 +23,9 @@ void grid::init(int gid) ///initiate the grid: when I call grid in main, program
 {
     m_gridsize = GRIDSIZE; //currently 1
     m_GPOS = gid;
-    for(int pwk=0; pwk<2;pwk++) //produce 2 of the same grids
+
+    //produce 2 of the same grids:
+    for(int pwk=0; pwk<2;pwk++)
     {
         for(int ywk=0;ywk<GRIDSIZE;ywk++)
         {
@@ -176,10 +178,11 @@ void grid::writeGrid(int it, int gen, int now)
     lout.close();
 //	kout.close();
     std::cout << " Hawks  " << ll << "\n";
+
 }
 
 
-///////////////////// KAIROMONE METHOD /////////////////////////////////////////
+///////////////////// KAIROMONE METHOD ///////////////////////////////////////// ASK Andrew: What's the difference between the first and the second part? How to I encorporate ECM eqn and where?
 
 
 void grid::processKairomone(int now) //2 grids: 1 needed new Kai
@@ -269,6 +272,9 @@ void grid::processKairomone(int now) //2 grids: 1 needed new Kai
     }
 
     //now = 1-now;
+
+
+    ////insert setECM
 //////////Here we calculate Kairomone concentrations and write them to the cells. We take central differences where possible.
 
 
@@ -278,7 +284,7 @@ void grid::processKairomone(int now) //2 grids: 1 needed new Kai
     {
         for (int y = 0; y < m_gridsize; y++)
         {
-            TotalKtemp = TotalKtemp + cells[1-now][y][x]->getKairomone();  //calculates total kairomone on grid.
+            TotalKtemp = TotalKtemp + cells[1-now][y][x]->getKairomone();  //calculates total kairomone on grid. //replace setKgradientEW by setECMgradientEW etc. and getKairomone by getECM
             if (cells[now][y][x]->getNumWasps() > 0)
             {
                 if (x != 0 && x != m_gridsize -1 && y != 0 && y != m_gridsize -1)
@@ -352,7 +358,7 @@ void grid::processKairomone(int now) //2 grids: 1 needed new Kai
 }
 
 
-/////////////////////////////////////////////////////////////////////////////// frees up memoroy at end of simulation: deletes everything!
+/////////////////////////////////////////////////////////////////////////////// frees up memory at end of simulation: deletes everything!
 
 void grid::destroy()
 {
