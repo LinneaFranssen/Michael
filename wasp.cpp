@@ -381,7 +381,7 @@ void wasp::processStep(int) //going through one timestep
                 std::cout << " Negative probabilities have occured in wasp.cpp  "<< p0 << p1 << p2 << p3 << "\n";
             }//// if we change parameters, this can lead to violation in stab. cond => often neg prob. and will catch it here!
 
-////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 //// find where the wasp is in the grid and then apply the corresponding probability of applying the movement rule..
 
